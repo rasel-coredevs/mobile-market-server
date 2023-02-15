@@ -27,7 +27,7 @@ const insertOneData = async (collectionName,body)=>{
 
 const upsertOne = async(collectionName,filter,updatedDoc,options)=>{
     try{
-        const result = collectionName.updateOne(
+        const result =await collectionName.updateOne(
             filter,
             updatedDoc,
             options

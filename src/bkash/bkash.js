@@ -24,6 +24,8 @@ class Bkash {
         //payerInfo
         this.amount=undefined;
         this.payerReference=undefined;
+        this.bookingId=undefined;
+        this.productId=undefined;
     }
 
     /**
@@ -111,9 +113,11 @@ class Bkash {
         }
     }
 
-    async setPayerInfo(amount,payerReference){
+    async setPayerInfo(amount,payerReference,bookingId,productId){
         this.amount = amount;
         this.payerReference = payerReference;
+        this.bookingId = bookingId;
+        this.productId = productId;
         return ;
     }
 
@@ -129,6 +133,8 @@ class Bkash {
             payload.intent = "Sale";
             payload.amount=this.amount;
             payload.payerReference=this.payerReference;
+            payload.bookingId = this.bookingId;
+            payload.productId = this.productId;
             
             //console.log(payload);
             if(!payload.callbackURL) payload.callbackURL = "http://localhost:5000/executeagreement";
@@ -188,8 +194,8 @@ class Bkash {
         payload.intent= "sale";
         payload.amount = this.amount;
         payload.payerReference = this.payerReference;
-        payload.merchantInvoiceNumber = "kdfdkfkf"
-        if(!payload.callbackURL) payload.callbackURL = "http://localhost:5000/executepayment";
+        payload.merchantInvoiceNumber = "kdfdkfkf";
+        if(!payload.callbackURL) payload.callbackURL = `http://localhost:5000/executepayment/${this.bookingId}/${this.productId}/`;
         return new Promise((resolve,reject)=>{
             this.makeRequest(this.__create,payload)
                 .then(res=>resolve(res))
